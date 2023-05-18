@@ -37,7 +37,7 @@ public class Main {
     }
 
     private static boolean isExistCondition(FanVote fanVote) {
-        return (fanVote.getFirstChoice() == 0 && fanVote.getSecondChoice() == 0 && fanVote.getThirdChoice() == 0);
+        return (fanVote.firstChoice() == 0 && fanVote.secondChoice() == 0 && fanVote.thirdChoice() == 0);
     }
 
     private static boolean isValidVote(FanVote fanVote) {
@@ -45,13 +45,13 @@ public class Main {
     }
 
     private static boolean isAllChoicesUnique(FanVote fanVote) {
-        return (fanVote.getFirstChoice() != fanVote.getSecondChoice() && fanVote.getFirstChoice() != fanVote.getThirdChoice() && fanVote.getSecondChoice() != fanVote.getThirdChoice());
+        return (fanVote.firstChoice() != fanVote.secondChoice() && fanVote.firstChoice() != fanVote.thirdChoice() && fanVote.secondChoice() != fanVote.thirdChoice());
     }
 
     private static boolean isAllChoicesInRange(FanVote fanVote) {
-        return (isChoiceInRange(fanVote.getFirstChoice()) &&
-                isChoiceInRange(fanVote.getSecondChoice()) &&
-                isChoiceInRange(fanVote.getThirdChoice()));
+        return (isChoiceInRange(fanVote.firstChoice()) &&
+                isChoiceInRange(fanVote.secondChoice()) &&
+                isChoiceInRange(fanVote.thirdChoice()));
     }
 
     private static boolean isChoiceInRange(int choice) {
@@ -65,13 +65,13 @@ public class Main {
             playerScores.put(i, 0);
         }
         for(FanVote fanVote : fanVotes) {
-            int firstChoice = fanVote.getFirstChoice();
+            int firstChoice = fanVote.firstChoice();
             playerScores.put(firstChoice, playerScores.get(firstChoice)+3);
 
-            int secondChoice = fanVote.getSecondChoice();
+            int secondChoice = fanVote.secondChoice();
             playerScores.put(secondChoice, playerScores.get(secondChoice)+2);
 
-            int thirdChoice = fanVote.getThirdChoice();
+            int thirdChoice = fanVote.thirdChoice();
             playerScores.put(thirdChoice, playerScores.get(thirdChoice)+1);
         }
         int maxPlayerScore = 0;
@@ -87,28 +87,6 @@ public class Main {
         return winner;
     }
 
-    private static class FanVote {
-
-        private final int firstChoice;
-        private final int secondChoice;
-        private final int thirdChoice;
-
-        public FanVote(int firstChoice, int secondChoice, int thirdChoice) {
-            this.firstChoice = firstChoice;
-            this.secondChoice = secondChoice;
-            this.thirdChoice = thirdChoice;
-        }
-
-        public int getFirstChoice() {
-            return firstChoice;
-        }
-
-        public int getSecondChoice() {
-            return secondChoice;
-        }
-
-        public int getThirdChoice() {
-            return thirdChoice;
-        }
+    private record FanVote(int firstChoice, int secondChoice, int thirdChoice) {
     }
 }

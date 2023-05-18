@@ -12,16 +12,17 @@ public class Main {
             String line = scanner.nextLine();
             System.out.println("Your vote is: " + line);
             FanVote fanVote = getFanVote(line);
-            if(isValidVote(fanVote)) {
-                System.out.println("Thank you for voting! Your vote is valid and will be counted!");
-                fanVotes.add(fanVote);
-            }
-            else {
-                System.out.println("Your vote is invalid and will not be counted! a valid vote must have 3 unique choices between 1 and 20");
-            }
-            if(isExistCondition(fanVote)) {
-                System.out.println("Exit condition. No more votes!");
-                break;
+            if(fanVote != null) {
+                if (isValidVote(fanVote)) {
+                    System.out.println("Thank you for voting! Your vote is valid and will be counted!");
+                    fanVotes.add(fanVote);
+                } else {
+                    System.out.println("Your vote is invalid and will not be counted! a valid vote must have 3 unique choices between 1 and 20");
+                }
+                if (isExistCondition(fanVote)) {
+                    System.out.println("Exit condition. No more votes!");
+                    break;
+                }
             }
         }
         int winner = getWinner(fanVotes);
@@ -29,11 +30,18 @@ public class Main {
     }
 
     private static FanVote getFanVote(String line) {
-        String[] votes = line.split(" ");
-        int firstChoice = Integer.parseInt(votes[0]);
-        int secondChoice = Integer.parseInt(votes[1]);
-        int thirdChoice = Integer.parseInt(votes[2]);
-        return new FanVote(firstChoice, secondChoice, thirdChoice);
+        FanVote fanVote = null;
+        try {
+            String[] votes = line.split(" ");
+            int firstChoice = Integer.parseInt(votes[0]);
+            int secondChoice = Integer.parseInt(votes[1]);
+            int thirdChoice = Integer.parseInt(votes[2]);
+            fanVote = new FanVote(firstChoice, secondChoice, thirdChoice);
+        }
+        catch (Exception e) {
+            System.out.println("Invalid vote: " + line +". Error message is: " + e.getMessage());
+        }
+        return fanVote;
     }
 
     private static boolean isExistCondition(FanVote fanVote) {
